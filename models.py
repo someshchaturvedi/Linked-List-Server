@@ -11,9 +11,14 @@ class LinkedListManager(object):
         return linked_list
 
     def retrieve_list(self, id):
+        if id not in self.linked_lists.keys():
+            return None
         return self.linked_lists[id]
 
     def delete(self, id):
+        if id not in self.linked_lists.keys():
+            return None
+        return self.linked_lists[id]
         del self.linked_lists[id]
 
 class LinkedList(object):
@@ -24,7 +29,6 @@ class LinkedList(object):
     curr = None
     def __init__(self, name, birthyear):
         self.add_node(name, birthyear)
-        if self.head is None: self.head = self.curr
     
     def add_node(self, name, birthyear):
         new_id = self.new_node_id
@@ -35,6 +39,8 @@ class LinkedList(object):
         self.curr = new_node
         self.length = self.length + 1
         self.new_node_id = self.new_node_id + 1
+        if self.head is None:
+            self.head = new_node
 
     def to_json(self):
         all_nodes = self.get_nodes()
@@ -44,9 +50,13 @@ class LinkedList(object):
         return data
     
     def pop_node(self):
-        if self.curr == self.head: self.head = None
+        if self.length == 0:
+            return
+        if self.curr == self.head:
+            self.head = None
         self.curr = self.curr.prev
-        self.curr.next = None
+        if self.curr:
+            self.curr.next = None
         self.length = self.length - 1
 
     def remove_node(self, name, birthyear):
@@ -73,8 +83,6 @@ class LinkedList(object):
 
         if temp is not None: 
             self.head = temp.prev
-
-        
 
     def get_nodes(self):
         i = self.head

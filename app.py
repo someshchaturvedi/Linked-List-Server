@@ -18,6 +18,8 @@ def create():
 @app.route('/api/link/<id>', methods = ['GET'])
 def get_list(id):
     linked_list = linked_list_manager.retrieve_list(id)
+    if linked_list is None:
+        return jsonify(error='Resource not found'), 404
     return jsonify(linked_list.to_json()), 200
 
 @app.route('/api/link/<id>', methods = ['PUT'])
@@ -26,12 +28,18 @@ def push(id):
     if 'name' not in data.keys() or 'birthyear' not in data.keys():
         return jsonify("Bad Parameters"), 400
     linked_list = linked_list_manager.retrieve_list(id)
+    if linked_list is None:
+        return jsonify(error='Resource not found'), 404
+
     linked_list.add_node(data['name'], data['birthyear'])
     return jsonify(linked_list.to_json()), 200
 
 @app.route('/api/link/pop/<id>', methods = ['GET'])
 def pop(id):
     linked_list = linked_list_manager.retrieve_list(id)
+    if linked_list is None:
+        return jsonify(error='Resource not found'), 404
+
     linked_list.pop_node()
     return jsonify(linked_list.to_json()), 200
 
@@ -41,18 +49,25 @@ def remove(id):
     if 'name' not in data.keys() or 'birthyear' not in data.keys():
         return jsonify("Bad Parameters"), 400
     linked_list = linked_list_manager.retrieve_list(id)
+    if linked_list is None:
+        return jsonify(error='Resource not found'), 404
+
     linked_list.remove_node(data['name'], data['birthyear'])
     return jsonify(linked_list.to_json()), 200
 
 @app.route('/api/link/reverse/<id>', methods = ['GET'])
 def reverse(id):
     linked_list = linked_list_manager.retrieve_list(id)
+    if linked_list is None:
+        return jsonify(error='Resource not found'), 404
     linked_list.reverse()
     return jsonify(linked_list.to_json()), 200
 
 @app.route('/api/link/<id>', methods = ['DELETE'])
 def delete(id):
     linked_list = linked_list_manager.delete(id)
+    if linked_list is None:
+        return jsonify(error='Resource not found'), 404
     return jsonify(), 204
 
 
