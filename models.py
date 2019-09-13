@@ -60,6 +60,20 @@ class LinkedList(object):
                 return i
             i = i.next
         return None
+    
+    def reverse(self):
+        temp = None
+        current = self.head 
+        self.curr = self.head
+        while current is not None: 
+            temp = current.prev  
+            current.prev = current.next
+            current.next = temp 
+            current = current.prev 
+
+        if temp is not None: 
+            self.head = temp.prev
+
         
 
     def get_nodes(self):

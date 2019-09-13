@@ -44,11 +44,16 @@ def remove(id):
     linked_list.remove_node(data['name'], data['birthyear'])
     return jsonify(linked_list.to_json()), 200
 
-@app.route('/api/link/pop/<id>', methods = ['GET'])
+@app.route('/api/link/reverse/<id>', methods = ['GET'])
 def reverse(id):
     linked_list = linked_list_manager.retrieve_list(id)
-    linked_list.pop_node()
+    linked_list.reverse()
     return jsonify(linked_list.to_json()), 200
+
+@app.route('/api/link/<id>', methods = ['DELETE'])
+def delete(id):
+    linked_list = linked_list_manager.delete(id)
+    return jsonify(), 204
 
 
 if __name__ == '__main__':
