@@ -107,7 +107,7 @@ class Node(object):
             'id': self._id,
             'name': self.name,
             'birthyear': self.birthyear,
-            'next': str(self.next)
+            'next': self.next._id if self.next else None
         }
         return data
     
